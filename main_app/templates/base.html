@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     {% block title %}
     <title>Savings Goals</title>
     {% endblock %}
@@ -18,6 +19,9 @@
                 <a href="/" class="left brand-logo">Savings & Expense Goal</a>
                 <ul class="right">
                     <a href="/about"></a>
+                </ul>
+                <ul class="right">
+                    <a href="{% url 'savings_index' %}">Savings</a>
                 </ul>
             </div>
         </nav>
