@@ -4,6 +4,8 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 def home(request):
@@ -12,10 +14,12 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+@login_required
 def savings(request):
-    savings = Savings.objects.all()
+    savings = Savings.objects.filter(user=request.user)
     return render(request, 'savings/index.html', {'savings': savings})
 
+@login_required
 def saving_details(request, saving_id):
     saving = Savings.objects.get(id=saving_id)
     return render(request, 'savings/detail.html', {'saving': saving})
@@ -34,19 +38,22 @@ def signup(request):
     form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form': form, 'error': error_message})
 
-
-class SavingsCreate(CreateView):
+class SavingsCreate(LoginRequiredMixin, CreateView):
     model = Savings
-    fields = '__all__'
+    fields = ('save_goal', 'current_savings', 'income')
     template_name = 'savings/saving_form.html'
 
-class SavingsUpdate(UpdateView):
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class SavingsUpdate(LoginRequiredMixin, UpdateView):
     model = Savings
     fields = 'income',
     template_name = 'savings/saving_form.html'
 
 
-class SavingsDelete(DeleteView):
+class SavingsDelete(LoginRequiredMixin, DeleteView):
     model = Savings
     success_url = '/savings/'
     template_name = 'savings/delete.html'
