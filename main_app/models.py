@@ -8,7 +8,12 @@ class Savings(models.Model):
     current_savings = models.IntegerField(default=0)
     income = models.IntegerField(default=0)
 
+    def get_absolute_url(self):
+        return reverse('saving_details', kwargs={'saving_id': self.id})
+
     def __str__(self):
         return str(self.save_goal)
+    
+
 
     

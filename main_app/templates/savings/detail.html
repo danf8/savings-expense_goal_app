@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Savings</title>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="card">
+        <div class="card-content">
+            <h1 class="card-title">Your Saving Goal: ${{ saving.save_goal }}</h1>
+            <p>Current Savings: ${{ saving.current_savings }}</p>
+            <p>Income: ${{ saving.income }}</p>
+        </div>
+        <div class="card-action">
+            <a href="{% url 'update_savings' saving.id %}">Update</a>
+            <a href="{% url 'delete_savings' saving.id %}">Delete</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

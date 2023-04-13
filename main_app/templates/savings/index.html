@@ -7,12 +7,12 @@
 {% block content %}
 <h1>Savings and Goals</h1>
 {% for saving in savings %}
-<div class="card">
-    <div class="card-content">
-        <span class="card-title">Saving Goal: ${{ saving.save_goal }}</span>
-        <p>Current Savings: ${{ saving.current_savings }}</p>
-        <p>Income: ${{ saving.income }}</p>
+<a href="{% url 'saving_details' saving.id %}">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">Savings Goal: ${{ saving.save_goal }}</span>
+        </div>
     </div>
-</div>
+</a>
 {% endfor   %}
 {% endblock %}
