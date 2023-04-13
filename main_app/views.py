@@ -75,3 +75,13 @@ class ExpenseCreate(LoginRequiredMixin, CreateView):
 class ExpenseDetails(LoginRequiredMixin, DetailView):
     model = Expenses
     template_name = 'expense/details.html'
+
+class ExpenseDelete(DeleteView):
+    model = Expenses
+    success_url = '/expenses/'
+    template_name = 'expense/delete.html'
+
+class ExpenseUpdate(UpdateView):
+    model = Expenses
+    fields = ('expense_amt', 'expense_type', 'date')
+    template_name = 'expense/create_expense.html'

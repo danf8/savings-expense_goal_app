@@ -1,11 +1,20 @@
 {% extends 'base.html' %}
 
 {% block title %}
+{% if object %}
+<title>Update Expense</title>
+{% else %}
 <title>Add Expense</title>
+{% endif %}
 {% endblock %}
 
 {% block content %}
+{% if object %}
+<h1>Update Expense</h1>
+{% else %}
 <h1>Add Expense</h1>
+{% endif %}
+
 <form method="POST">
     {% csrf_token %}
     <table>

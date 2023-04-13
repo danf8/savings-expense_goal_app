@@ -11,6 +11,10 @@
             <h1 class="card-title">Expense Amount: ${{ expenses.expense_amt }}</h1>
             <p>Expense type: {{ expenses.expense_type }}</p>
         </div>
+        <div class="card-action">
+            <a href="{% url 'delete_expense' expenses.id %}">Delete</a>
+            <a href="{% url 'update_expense' expenses.id %}">Update</a>
+        </div>
     </div>
 </div>
 {% endblock %}
