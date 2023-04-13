@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Savings
+from .models import Savings, Expenses
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
@@ -24,6 +24,10 @@ def saving_details(request, saving_id):
     saving = Savings.objects.get(id=saving_id)
     return render(request, 'savings/detail.html', {'saving': saving})
 
+@login_required
+def expenses(request):
+    expenses = Expenses.objects.filter(user=request.user)
+    return render(request, 'expense/index.html', {'expenses': expenses})
 
 def signup(request):
     error_message = ''
@@ -57,3 +61,17 @@ class SavingsDelete(LoginRequiredMixin, DeleteView):
     model = Savings
     success_url = '/savings/'
     template_name = 'savings/delete.html'
+
+
+class ExpenseCreate(LoginRequiredMixin, CreateView):
+    model = Expenses
+    fields = ('expense_amt', 'expense_type', 'date')
+    template_name = 'expense/create_expense.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+class ExpenseDetails(LoginRequiredMixin, DetailView):
+    model = Expenses
+    template_name = 'expense/details.html'

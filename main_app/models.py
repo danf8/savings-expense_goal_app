@@ -16,6 +16,19 @@ class Savings(models.Model):
     def __str__(self):
         return str(self.save_goal)
     
+class Expenses(models.Model):
+    expense_amt = models.IntegerField(default=0)
+    expense_type = models.CharField(max_length=25)
+    date = models.DateField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    def get_absolute_url(self):
+        return reverse('expense_details', kwargs={'pk': self.id})
+
+    def __str__(self):
+        return str(self.expense_amt)
+    
+    class Meta:
+        ordering = '-date',
 
     

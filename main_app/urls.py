@@ -10,4 +10,7 @@ urlpatterns= [
     path('savings/create/', views.SavingsCreate.as_view(), name='saving_create'),
     path('savings/<int:pk>/update/', views.SavingsUpdate.as_view(), name='update_savings'),
     path('savings/<int:pk>/delete/',views.SavingsDelete.as_view(), name='delete_savings'),
+    path('expense/', views.expenses, name='expense_view'),
+    path('expense/create/', views.ExpenseCreate.as_view(), name='create_expense'),
+    path('expense/<int:pk>/details/', views.ExpenseDetails.as_view(), name='expense_details'),
 ]

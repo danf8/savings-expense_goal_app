@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Expense</title>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="card">
+        <div class="card-content">
+            <h1 class="card-title">Expense Amount: ${{ expenses.expense_amt }}</h1>
+            <p>Expense type: {{ expenses.expense_type }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
