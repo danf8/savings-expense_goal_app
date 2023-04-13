@@ -9,6 +9,6 @@ class Savings(models.Model):
     income = models.IntegerField(default=0)
 
     def __str__(self):
-        return self.save_goal
+        return str(self.save_goal)
 
     

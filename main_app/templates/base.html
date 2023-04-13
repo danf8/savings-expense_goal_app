@@ -18,7 +18,16 @@
             <div class="nav-wrapper">
                 <a href="/" class="left brand-logo">Savings & Expense Goal</a>
                 <ul class="right">
-                    <a href="/about"></a>
+                    <a href="/about">About</a>
+                </ul>
+                <ul class="right">
+                    <a href="{% url 'signup' %}">Signup</a>
+                </ul>
+                <ul class="right">
+                    <a href="{% url 'login' %}">Login</a>
+                </ul>
+                <ul class="right">
+                    <a href="{% url 'logout' %}">Logout</a>
                 </ul>
                 <ul class="right">
                     <a href="{% url 'savings_index' %}">Savings</a>
