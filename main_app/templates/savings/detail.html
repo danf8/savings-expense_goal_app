@@ -16,18 +16,21 @@
             <p>Monthly Income: ${{ saving.monthly_income }}</p>
             <p>Total Expenses:  ${{ total_expenses }}</p>
             <p>Income After Expenses:  ${{ income_after_expenses }}</p>
+            {%  if expenses.count > 0 %}
             <h1 class="card-title">Expense Type Percentages</h1>
                 <ul>
                     {% for expense_type in expense_type_totals %}
                         <li>{{ expense_type.expense_type }}: {{ expense_type.percentage }}%</li>
                     {% endfor %}
                 </ul>
+            {% endif %}
         </div>
         <div class="card-action">
             <a href="{% url 'update_savings' saving.id %}">Update</a>
             <a href="{% url 'delete_savings' saving.id %}">Delete</a>
         </div>
     </div>
+    {%  if expenses.count > 0 %}
     {% for expense in expenses %}
     <a href="{% url 'expense_details' expense.id %}">
         <div class="card">
@@ -38,5 +41,12 @@
         </div>
     </a>
     {% endfor %}
+    {% else %}
+    <div class="card">
+        <div class="card-content">
+            No expenses
+        </div>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

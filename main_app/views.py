@@ -26,8 +26,10 @@ def saving_details(request, saving_id):
     expenses = Expenses.objects.filter(user=request.user)
     saving = Savings.objects.get(id=saving_id)
     total_expenses = expenses.aggregate(Sum('expense_amt'))['expense_amt__sum']
-    # new_total_expenses = expenses.aggregate(total=Sum('expense_amt'))['total']
-    income_after_expenses = saving.monthly_income - total_expenses
+    if total_expenses is not None and total_expenses > 0:
+        income_after_expenses = saving.monthly_income - total_expenses
+    else:
+        income_after_expenses = saving.monthly_income
     expense_type_totals = Expenses.objects.values('expense_type').annotate(total=Sum('expense_amt'))
     for expense_type in expense_type_totals:
         expense_type['percentage'] = (expense_type['total'] / total_expenses) * 100
