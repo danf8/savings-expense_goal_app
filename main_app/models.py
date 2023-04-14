@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class Savings(models.Model):
     save_goal = models.IntegerField(default=0)
     current_savings = models.IntegerField(default=0)
-    income = models.IntegerField(default=0)
+    monthly_income = models.IntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def get_absolute_url(self):

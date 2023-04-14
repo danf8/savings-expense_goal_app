@@ -6,6 +6,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Sum
 # Create your views here.
 
 def home(request):
@@ -21,8 +22,16 @@ def savings(request):
 
 @login_required
 def saving_details(request, saving_id):
+    expenses = Expenses.objects.filter(user=request.user)
     saving = Savings.objects.get(id=saving_id)
-    return render(request, 'savings/detail.html', {'saving': saving})
+    total_expenses = expenses.aggregate(Sum('expense_amt'))['expense_amt__sum']
+    income_after_expenses = saving.monthly_income - total_expenses
+    time_till_goal = round(((saving.save_goal / income_after_expenses) / 12), 2)
+    return render(request, 'savings/detail.html', {'saving': saving, 
+                                                   'expenses': expenses, 
+                                                   'total_expenses': total_expenses, 
+                                                   'income_after_expenses': income_after_expenses, 
+                                                   'time_till_goal': time_till_goal })
 
 @login_required
 def expenses(request):
@@ -44,7 +53,7 @@ def signup(request):
 
 class SavingsCreate(LoginRequiredMixin, CreateView):
     model = Savings
-    fields = ('save_goal', 'current_savings', 'income')
+    fields = ('save_goal', 'current_savings', 'monthly_income')
     template_name = 'savings/saving_form.html'
 
     def form_valid(self, form):
@@ -53,7 +62,7 @@ class SavingsCreate(LoginRequiredMixin, CreateView):
 
 class SavingsUpdate(LoginRequiredMixin, UpdateView):
     model = Savings
-    fields = 'income',
+    fields = 'monthly_income',
     template_name = 'savings/saving_form.html'
 
 
@@ -76,12 +85,12 @@ class ExpenseDetails(LoginRequiredMixin, DetailView):
     model = Expenses
     template_name = 'expense/details.html'
 
-class ExpenseDelete(DeleteView):
+class ExpenseDelete(LoginRequiredMixin, DeleteView):
     model = Expenses
     success_url = '/expenses/'
     template_name = 'expense/delete.html'
 
-class ExpenseUpdate(UpdateView):
+class ExpenseUpdate(LoginRequiredMixin, UpdateView):
     model = Expenses
     fields = ('expense_amt', 'expense_type', 'date')
     template_name = 'expense/create_expense.html'

@@ -9,13 +9,26 @@
     <div class="card">
         <div class="card-content">
             <h1 class="card-title">Your Saving Goal: ${{ saving.save_goal }}</h1>
+            <p>Time to Goal Savings: {{ time_till_goal }} Years</p>
             <p>Current Savings: ${{ saving.current_savings }}</p>
-            <p>Income: ${{ saving.income }}</p>
+            <p>Monthly Income: ${{ saving.monthly_income }}</p>
+            <p>Total Expenses:  ${{ total_expenses }}</p>
+            <p>Income After Expenses:  ${{ income_after_expenses }}</p>
         </div>
         <div class="card-action">
             <a href="{% url 'update_savings' saving.id %}">Update</a>
             <a href="{% url 'delete_savings' saving.id %}">Delete</a>
         </div>
     </div>
+    {% for expense in expenses %}
+    <a href="{% url 'expense_details' expense.id %}">
+        <div class="card">
+            <div class="card-content">
+                <p class="card-title">Expense amount: ${{ expense.expense_amt }}</p>
+                <p>Expense Type: {{ expense.expense_type }}</p>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
 </div>
 {% endblock %}
