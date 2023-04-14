@@ -17,8 +17,21 @@ class Savings(models.Model):
         return str(self.save_goal)
     
 class Expenses(models.Model):
+    EXPENSE_TYPE = (
+        ('R','Restaurant'),
+        ('B', 'Bills & Utilities'),
+        ('T','Transportation'),
+        ('E','Entertainment'),
+        ('D','Education'),
+        ('V','Travel'),
+        ('G','Groceries'),
+        ('A','Gas'),
+        ('H','Health & Wellness'),
+        ('S','Shopping'),
+        ('O','Other'),
+        )
     expense_amt = models.IntegerField(default=0)
-    expense_type = models.CharField(max_length=25)
+    expense_type = models.CharField(max_length=2, choices=EXPENSE_TYPE, default=EXPENSE_TYPE[0][0])
     date = models.DateField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 

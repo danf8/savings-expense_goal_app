@@ -9,7 +9,7 @@
     <div class="card">
         <div class="card-content">
             <h1 class="card-title">Your Saving Goal: ${{ saving.save_goal }}</h1>
-            <p>Time to Goal Savings: {{ time_till_goal }} Years</p>
+            <p>Time to Goal Savings: {{ time_till_goal }} </p>
             <p>Current Savings: ${{ saving.current_savings }}</p>
             <p>Monthly Income: ${{ saving.monthly_income }}</p>
             <p>Total Expenses:  ${{ total_expenses }}</p>
@@ -25,7 +25,7 @@
         <div class="card">
             <div class="card-content">
                 <p class="card-title">Expense amount: ${{ expense.expense_amt }}</p>
-                <p>Expense Type: {{ expense.expense_type }}</p>
+                <p>Expense Type: {{ expense.get_expense_type_display }}</p>
             </div>
         </div>
     </a>

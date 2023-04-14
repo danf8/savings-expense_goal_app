@@ -7,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
+from .forms import ExpenseForm
 # Create your views here.
 
 def home(request):
@@ -26,7 +27,10 @@ def saving_details(request, saving_id):
     saving = Savings.objects.get(id=saving_id)
     total_expenses = expenses.aggregate(Sum('expense_amt'))['expense_amt__sum']
     income_after_expenses = saving.monthly_income - total_expenses
-    time_till_goal = round(((saving.save_goal / income_after_expenses) / 12), 2)
+    if income_after_expenses > 0:
+        time_till_goal = round(((saving.save_goal / income_after_expenses) / 12), 2), 'Years'
+    else:
+        time_till_goal = 'You are spending more than income currently'
     return render(request, 'savings/detail.html', {'saving': saving, 
                                                    'expenses': expenses, 
                                                    'total_expenses': total_expenses, 
@@ -74,8 +78,13 @@ class SavingsDelete(LoginRequiredMixin, DeleteView):
 
 class ExpenseCreate(LoginRequiredMixin, CreateView):
     model = Expenses
-    fields = ('expense_amt', 'expense_type', 'date')
+    form_class = ExpenseForm
     template_name = 'expense/create_expense.html'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['expense_type'].queryset = Expenses.expense_type
+        return form
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -94,3 +103,7 @@ class ExpenseUpdate(LoginRequiredMixin, UpdateView):
     model = Expenses
     fields = ('expense_amt', 'expense_type', 'date')
     template_name = 'expense/create_expense.html'
+
+
+
+
