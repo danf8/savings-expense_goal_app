@@ -26,7 +26,12 @@ def saving_details(request, saving_id):
     expenses = Expenses.objects.filter(user=request.user)
     saving = Savings.objects.get(id=saving_id)
     total_expenses = expenses.aggregate(Sum('expense_amt'))['expense_amt__sum']
+    # new_total_expenses = expenses.aggregate(total=Sum('expense_amt'))['total']
     income_after_expenses = saving.monthly_income - total_expenses
+    expense_type_totals = Expenses.objects.values('expense_type').annotate(total=Sum('expense_amt'))
+    for expense_type in expense_type_totals:
+        expense_type['percentage'] = (expense_type['total'] / total_expenses) * 100
+        print(expense_type)
     if income_after_expenses > 0:
         time_till_goal = round(((saving.save_goal / income_after_expenses) / 12), 2), 'Years'
     else:
@@ -35,7 +40,8 @@ def saving_details(request, saving_id):
                                                    'expenses': expenses, 
                                                    'total_expenses': total_expenses, 
                                                    'income_after_expenses': income_after_expenses, 
-                                                   'time_till_goal': time_till_goal })
+                                                   'time_till_goal': time_till_goal, 
+                                                   'expense_type_totals': expense_type_totals, })
 
 @login_required
 def expenses(request):

@@ -1,3 +1,5 @@
+
+
 {% extends 'base.html' %}
 
 {% block title %}
@@ -14,6 +16,12 @@
             <p>Monthly Income: ${{ saving.monthly_income }}</p>
             <p>Total Expenses:  ${{ total_expenses }}</p>
             <p>Income After Expenses:  ${{ income_after_expenses }}</p>
+            <h1 class="card-title">Expense Type Percentages</h1>
+                <ul>
+                    {% for expense_type in expense_type_totals %}
+                        <li>{{ expense_type.expense_type }}: {{ expense_type.percentage }}%</li>
+                    {% endfor %}
+                </ul>
         </div>
         <div class="card-action">
             <a href="{% url 'update_savings' saving.id %}">Update</a>
