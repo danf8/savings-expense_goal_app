@@ -8,41 +8,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
     {% block title %}
     <title>Savings Goals</title>
     {% endblock %}
 </head>
-<body>
+<body class="green lighten-5">
     <header class="navbar-fixed">
+        <ul id="dropdown1" class="dropdown-content">
+            <li> <a href="{% url 'saving_create' %}">Get Started on Your Goal</a></li>
+            <li><a href="{% url 'savings_index' %}">Savings</a></li>
+            <li><a href="{% url 'additional_savings' %}">Add to Savings</a></li>
+        </ul>
         <nav>
-            <div class="nav-wrapper">
-                <a href="/" class="left brand-logo">Savings & Expense Goal</a>
-                <ul class="right">
-                    <a href="/about">About</a>
-                </ul>
-                <ul class="right">
-                    <a href="{% url 'signup' %}">Signup</a>
-                </ul>
-                <ul class="right">
-                    <a href="{% url 'login' %}">Login</a>
-                </ul>
-                <ul class="right">
-                    <a href="{% url 'logout' %}">Logout</a>
-                </ul>
-                <ul class="right">
-                    <a href="{% url 'savings_index' %}">Savings</a>
-                </ul>
-                <ul class="right">
-                    <a href="{% url 'saving_create' %}">Get Started on Your Goal</a>
-                </ul>
-                <ul class="right">
-                    <a href="{% url 'create_expense' %}">Add Expense</a>
-                </ul>
-                <ul class="right">
-                    <a href="{% url 'expense_view' %}">Expense</a>
-                </ul>
-                <ul class="right">
-                    <a href="{% url 'additional_savings' %}">Add to Savings</a>
+            <div class="nav-wrapper green lighten-1">
+                <a href="/" class=" brand-logo">Savings & Expense Goal</a>
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="/about">About</a></li>
+                    {% if user.is_authenticated %}
+                    <ul id="dropdown2" class="dropdown-content">
+                        <li><a href="{% url 'create_expense' %}">Add Expense</a></li>
+                        <li><a href="{% url 'expense_view' %}">View Expense</a></li>
+                    </ul>
+                    <li><a class=" dropdown-trigger" href="#!" data-target="dropdown1">Get Started on Saving<i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a class=" dropdown-trigger" href="#!" data-target="dropdown2">Expenses<i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                    <li><a href="{% url 'signup' %}">Signup</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>
@@ -51,8 +48,14 @@
         {% block content %}
         {% endblock %}
     </main>
-    <footer class="page-footer">
+    <footer class="page-footer green lighten-1">
         <p>Copyright &copy; All Rights Reserved 2023</p>
     </footer>
 </body>
 </html>
+
+<script>
+    $(document).ready(() => {
+        $(".dropdown-trigger").dropdown();
+    })
+</script>
