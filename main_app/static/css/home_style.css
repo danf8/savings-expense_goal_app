@@ -1,0 +1,23 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    animation: animate-img 12s infinite;
+    background-size: cover;
+}
+
+main {
+    flex-grow: 1;
+}
+
+@keyframes animate-img {
+    20% {
+        background: url("https://images.pexels.com/photos/4386324/pexels-photo-4386324.jpeg?auto=compress&cs=tinysrgb&w=1600") no-repeat center fixed;
+    }
+    40% {
+        background: url("https://images.pexels.com/photos/6863515/pexels-photo-6863515.jpeg?auto=compress&cs=tinysrgb&w=1600") no-repeat center fixed;
+    }
+    60% {
+        background: url("https://images.pexels.com/photos/6694543/pexels-photo-6694543.jpeg?auto=compress&cs=tinysrgb&w=1600") no-repeat center fixed;
+    }
+}
