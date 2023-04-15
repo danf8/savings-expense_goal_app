@@ -16,6 +16,16 @@ class Savings(models.Model):
     def __str__(self):
         return str(self.save_goal)
     
+class AddSavings(models.Model):
+    additional_savings = models.IntegerField(default=0)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def get_absolute_url(self):
+        return reverse('savings_index')
+
+    def __str__(self):
+        return str(self.additional_savings)
+    
 class Expenses(models.Model):
     EXPENSE_TYPE = (
         ('Restaurant','Restaurant'),
