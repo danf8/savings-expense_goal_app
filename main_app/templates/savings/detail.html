@@ -10,7 +10,7 @@
     <div class="card">
         <div class="card-content">
             <h1 class="card-title">Your Saving Goal: ${{ saving.save_goal }}</h1>
-            <p>Time to Goal Savings: {{ time_till_goal }} Years </p>
+            <p>Time to Goal Savings: {{ time_till_goal }} {{ time_in }} </p>
             {% if add_savings.count > 0 %}
             <p>Current Savings: ${{ total_savings }}</p>
             {% else %}
@@ -25,6 +25,7 @@
                     {% for expense_type in expense_type_totals %}
                         <li>{{ expense_type.expense_type }}: {{ expense_type.percentage }}%</li>
                     {% endfor %}
+                    <canvas id="pie-chart"></canvas>
                 </ul>
             {% endif %}
         </div>
@@ -60,8 +61,28 @@
         </div>
     </div>
     {% endif %}
-
 </div>
 
+<script>
+    let config = {
+        type: 'pie',
+        data :{
+            datasets: [{
+                data: {{ data|safe }},
+                backgroundColor: ['red', 'blue', 'green', 'orange', 'yellow', 'purple', 'black', 'grey', 'white', 'beige' ],
+                label: 'amount'
+            }],
+            labels: {{ labels|safe }}
+        },
+        options: {
+            responsive: true
+        }
+    };
+    
+    window.onload = function() {
+        let ctx = document.getElementById('pie-chart').getContext('2d');
+        window.myPie = new Chart(ctx, config);
+    };
+</script>
 
 {% endblock %}

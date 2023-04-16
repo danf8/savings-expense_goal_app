@@ -8,6 +8,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from .forms import ExpenseForm
+from django.http import JsonResponse
+import requests
+import environ
+
+environ.Env.read_env()
+env = environ.Env()
+api_key = env.str('API_KEY', '')
+
 # Create your views here.
 
 def home(request):
@@ -36,18 +44,25 @@ def saving_details(request, saving_id):
             income_after_expenses = saving.monthly_income - total_expenses
             if income_after_expenses > 0:
                 time_till_goal = round(((saving.save_goal / (income_after_expenses + saving.current_savings)) / 12), 2)
+                time_in = 'Years'
             else: 
                 time_till_goal = 'You are spending more than income currently'
+                time_in = ''
     else:
         income_after_expenses = saving.monthly_income
         time_till_goal = round(((saving.save_goal / (income_after_expenses + saving.current_savings)) / 12), 2)
     expense_type_totals = expenses.values('expense_type').annotate(total=Sum('expense_amt'))
     for expense_type in expense_type_totals:
         if total_expenses is not None:
-            print(expense_type_totals)
             expense_type['percentage'] = round((expense_type['total'] / total_expenses) * 100, 2)
         else:
             expense_type['percentage'] = 0
+    labels = []
+    data = []
+    queryset = expenses
+    for val in queryset:
+        labels.append(val.expense_type)
+        data.append(val.expense_amt)
     return render(request, 'savings/detail.html', {'saving': saving, 
                                                    'expenses': expenses, 
                                                    'total_expenses': total_expenses, 
@@ -56,7 +71,7 @@ def saving_details(request, saving_id):
                                                    'expense_type_totals': expense_type_totals, 
                                                    'add_savings': add_savings, 
                                                    'total_added_savings': total_added_savings, 
-                                                   'total_savings': total_savings, })
+                                                   'total_savings': total_savings, 'labels': labels, 'data': data, 'time_in': time_in, })
 
 @login_required
 def expenses(request):
@@ -133,3 +148,25 @@ class AdditionalSavings(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+def get_financial_edu_articles(request):
+    endpoint = 'https://newsapi.org/v2/everything'
+    query = 'financial education'
+    params = {'q': query, 'apiKey': api_key} 
+
+    # Send GET request to News API
+    response = requests.get(endpoint, params={'q': query, 'apiKey': api_key})
+
+    if response.status_code == 200:
+        articles = response.json()['articles']
+        # Extract relevant information from the articles
+        extracted_articles = [{'title': article['title'], 'description': article['description'], 'url': article['url']} for article in articles]
+        # Return the extracted articles as JSON response
+        context = {'articles': extracted_articles}
+        return render(request, 'articles.html', context)
+    else:
+        return render(request, 'home.html')
+    
+
+    

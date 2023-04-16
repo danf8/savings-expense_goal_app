@@ -6,6 +6,19 @@
 
 {% block content %}
 
-<h1>About </h1>
+<div class="card">
+    <div class="card-content">
+        <h1>About Us</h1>
+        <h5>Help individuals reach their savings goal by tracking their income and expenses to provide insight on how best to reach their goals </h5>
+        {% if user.is_authenticated %}
+        {% else %}
+        <a href="{% url 'signup' %}"><span class="card-title activator Black-text text-darken-4">Click here to start saving today</span></span></a>
+        <a href="{% url 'login' %}"><span class="card-title activator Black-text text-darken-4">Already a user?</span></span></a>
+        {% endif %}
+      </div>
+    <div class="card-image waves-block waves-light">
+        <img class="activator" src="https://images.pexels.com/photos/5849592/pexels-photo-5849592.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="">
+    </div>
+</div>
 
 {% endblock %}

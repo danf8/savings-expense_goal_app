@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Financial Education Articles</title>
+{% endblock %}
+{% block content %}
+    <h1>Financial Education Articles</h1>
+    <ul>
+        {% for article in articles %}
+            <li>
+                <h3>{{ article.title }}</h3>
+                <p>{{ article.description }}</p>
+                <a href="{{ article.url }}" target="_blank">Read More</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
