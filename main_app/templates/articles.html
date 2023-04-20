@@ -5,13 +5,19 @@
 {% endblock %}
 {% block content %}
     <h1>Financial Education Articles</h1>
-    <ul>
-        {% for article in articles %}
+    <form method="GET">
+        {% csrf_token %}
+        <label for="query">Search for Articles:</label>
+        <input type="text" name="query" id="query">
+        <input type="submit" value="search" class="btn">
+    </form>
+    {% for article in articles %}
+    <ul class="collection with-header">
             <li>
-                <h3>{{ article.title }}</h3>
-                <p>{{ article.description }}</p>
-                <a href="{{ article.url }}" target="_blank">Read More</a>
+                <li class="collection-header"><h3>{{ article.title }}</h3></li>
+                <li class="collection-item"><p>{{ article.description }}</p></li>
+                <li class="collection-item"><a href="{{ article.url }}" target="_blank">Read More</a></li>
             </li>
+        </ul>
         {% endfor %}
-    </ul>
 {% endblock %}

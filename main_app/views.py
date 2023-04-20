@@ -91,6 +91,24 @@ def signup(request):
     form = UserCreationForm()
     return render(request, 'registration/signup.html', {'form': form, 'error': error_message})
 
+@login_required
+def get_financial_edu_articles(request):
+    endpoint = 'https://newsapi.org/v2/everything'
+    # if query is empty defaults to financial education
+    query = request.GET.get('query', 'financial education')
+    response = requests.get(endpoint, params={'q': query, 'apiKey': api_key})
+
+    if response.status_code == 200:
+        articles = response.json()['articles']
+        # extract relevant information from the articles
+        extracted_articles = [{'title': article['title'], 'description': article['description'], 'url': article['url']} for article in articles]
+        # return the extracted articles as JSON response
+        context = {'articles': extracted_articles}
+        return render(request, 'articles.html', context)
+    else:
+        return render(request, 'home.html')
+
+
 class SavingsCreate(LoginRequiredMixin, CreateView):
     model = Savings
     fields = ('save_goal', 'current_savings', 'monthly_income')
@@ -149,24 +167,22 @@ class AdditionalSavings(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
+# @login_required
+# def get_financial_edu_articles(request):
+#     endpoint = 'https://newsapi.org/v2/everything'
+#     # if query is empty defaults to financial education
+#     query = request.GET.get('query', 'financial education')
+#     response = requests.get(endpoint, params={'q': query, 'apiKey': api_key})
 
-def get_financial_edu_articles(request):
-    endpoint = 'https://newsapi.org/v2/everything'
-    query = 'financial education'
-    params = {'q': query, 'apiKey': api_key} 
-
-    # Send GET request to News API
-    response = requests.get(endpoint, params={'q': query, 'apiKey': api_key})
-
-    if response.status_code == 200:
-        articles = response.json()['articles']
-        # Extract relevant information from the articles
-        extracted_articles = [{'title': article['title'], 'description': article['description'], 'url': article['url']} for article in articles]
-        # Return the extracted articles as JSON response
-        context = {'articles': extracted_articles}
-        return render(request, 'articles.html', context)
-    else:
-        return render(request, 'home.html')
+#     if response.status_code == 200:
+#         articles = response.json()['articles']
+#         # Extract relevant information from the articles
+#         extracted_articles = [{'title': article['title'], 'description': article['description'], 'url': article['url']} for article in articles]
+#         # Return the extracted articles as JSON response
+#         context = {'articles': extracted_articles}
+#         return render(request, 'articles.html', context)
+#     else:
+#         return render(request, 'home.html')
     
 
     
