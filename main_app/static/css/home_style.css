@@ -2,7 +2,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    animation: animate-img 12s infinite;
+    animation: animate-img 10s infinite;
     background-size: cover;
 }
 
@@ -11,13 +11,16 @@ main {
 }
 
 @keyframes animate-img {
-    20% {
+    25% {
         background: url("https://images.pexels.com/photos/4386324/pexels-photo-4386324.jpeg?auto=compress&cs=tinysrgb&w=1600") no-repeat center fixed;
     }
-    40% {
+    50% {
         background: url("https://images.pexels.com/photos/6863515/pexels-photo-6863515.jpeg?auto=compress&cs=tinysrgb&w=1600") no-repeat center fixed;
     }
-    60% {
+    75% {
         background: url("https://images.pexels.com/photos/6694543/pexels-photo-6694543.jpeg?auto=compress&cs=tinysrgb&w=1600") no-repeat center fixed;
+    }
+    100% {
+        background: url("https://images.pexels.com/photos/53621/calculator-calculation-insurance-finance-53621.jpeg?auto=compress&cs=tinysrgb&w=1600") no-repeat center fixed;
     }
 }
