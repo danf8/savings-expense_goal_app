@@ -36,6 +36,7 @@ def saving_details(request, saving_id):
     saving = Savings.objects.get(id=saving_id)
     total_expenses = expenses.aggregate(Sum('expense_amt'))['expense_amt__sum']
     total_added_savings = add_savings.aggregate(Sum('additional_savings'))['additional_savings__sum']
+    time_in = ''
     if total_added_savings is not None and total_added_savings > 0:
         total_savings = saving.current_savings + total_added_savings 
     else:
@@ -135,11 +136,6 @@ class ExpenseCreate(LoginRequiredMixin, CreateView):
     form_class = ExpenseForm
     template_name = 'expense/create_expense.html'
 
-    def get_form(self, form_class=None):
-        form = super().get_form(form_class)
-        form.fields['expense_type'].queryset = Expenses.expense_type
-        return form
-
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
@@ -167,22 +163,7 @@ class AdditionalSavings(LoginRequiredMixin, CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-# @login_required
-# def get_financial_edu_articles(request):
-#     endpoint = 'https://newsapi.org/v2/everything'
-#     # if query is empty defaults to financial education
-#     query = request.GET.get('query', 'financial education')
-#     response = requests.get(endpoint, params={'q': query, 'apiKey': api_key})
 
-#     if response.status_code == 200:
-#         articles = response.json()['articles']
-#         # Extract relevant information from the articles
-#         extracted_articles = [{'title': article['title'], 'description': article['description'], 'url': article['url']} for article in articles]
-#         # Return the extracted articles as JSON response
-#         context = {'articles': extracted_articles}
-#         return render(request, 'articles.html', context)
-#     else:
-#         return render(request, 'home.html')
     
 
     

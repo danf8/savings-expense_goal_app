@@ -7,8 +7,3 @@ body {
 main {
     flex-grow: 1;
 }
-
-form table tbody tr td select#id_expense_type {
-    display: block;
-}
-
