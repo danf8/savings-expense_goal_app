@@ -83,7 +83,11 @@ WSGI_APPLICATION = 'savingsgoal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'savingsgoal',
+        'NAME': 'danf8/savingsgoal-0424',
+        'USER': os.environ['USER'],
+        'PASSWORD': os.environ['PASSWORD'],
+        'HOST': 'db.bit.io',
+        'PORT': '5432',
     }
 }
 
