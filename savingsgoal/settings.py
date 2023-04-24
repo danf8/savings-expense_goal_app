@@ -29,7 +29,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 API_KEY = os.environ['API_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
