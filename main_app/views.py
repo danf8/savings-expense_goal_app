@@ -101,9 +101,7 @@ def get_financial_edu_articles(request):
 
     if response.status_code == 200:
         articles = response.json()['articles']
-        # extract relevant information from the articles
         extracted_articles = [{'title': article['title'], 'description': article['description'], 'url': article['url']} for article in articles]
-        # return the extracted articles as JSON response
         context = {'articles': extracted_articles}
         return render(request, 'articles.html', context)
     else:

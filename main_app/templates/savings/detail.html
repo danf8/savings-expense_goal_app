@@ -30,8 +30,8 @@
             {% endif %}
         </div>
         <div class="card-action">
-            <a href="{% url 'update_savings' saving.id %}">Update</a>
-            <a href="{% url 'delete_savings' saving.id %}">Delete</a>
+            <a href="{% url 'update_savings' saving.id %}"><i style="color: #00b0ff " class="material-icons">edit</i></a>
+            <a href="{% url 'delete_savings' saving.id %}"><i style="color: red;" class="material-icons">delete</i></a>
         </div>
     </div>
     {% if add_savings.count > 0 %}

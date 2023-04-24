@@ -12,8 +12,8 @@
             <p>Expense type: {{ expenses.get_expense_type_display  }}</p>
         </div>
         <div class="card-action">
-            <a href="{% url 'delete_expense' expenses.id %}">Delete</a>
-            <a href="{% url 'update_expense' expenses.id %}">Update</a>
+            <a href="{% url 'update_expense' expenses.id %}"><i style="color: #00b0ff " class="material-icons">edit</i></a>
+            <a href="{% url 'delete_expense' expenses.id %}"><i style="color: red;" class="material-icons">delete</i></a>
         </div>
     </div>
 </div>
